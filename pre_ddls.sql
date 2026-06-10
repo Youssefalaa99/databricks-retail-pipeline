@@ -1,0 +1,10 @@
+CREATE CATALOG IF NOT EXISTS retail;
+
+USE CATALOG retail;
+
+CREATE SCHEMA IF NOT EXISTS bronze;
+CREATE SCHEMA IF NOT EXISTS silver;
+CREATE SCHEMA IF NOT EXISTS gold;
+
+CREATE VOLUME IF NOT EXISTS default.landing_volume
+COMMENT 'Landing zone for retail csv dummy files';
