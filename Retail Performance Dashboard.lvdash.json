@@ -1,0 +1,899 @@
+{
+  "datasets": [
+    {
+      "name": "product_performance",
+      "displayName": "Product Performance",
+      "config": {
+        "version": "1.1",
+        "source": "retail.gold.product_performance",
+        "dimensions": [
+          {
+            "name": "product_id",
+            "expr": "product_id"
+          },
+          {
+            "name": "product_name",
+            "expr": "product_name"
+          },
+          {
+            "name": "category",
+            "expr": "category"
+          },
+          {
+            "name": "last_sold_date",
+            "expr": "last_sold_date"
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_revenue",
+            "expr": "ROUND(SUM(total_revenue), 2)"
+          },
+          {
+            "name": "total_cost",
+            "expr": "SUM(total_cost)"
+          },
+          {
+            "name": "gross_profit",
+            "expr": "ROUND(SUM(gross_profit), 2)"
+          },
+          {
+            "name": "units_sold",
+            "expr": "SUM(units_sold)"
+          },
+          {
+            "name": "total_orders",
+            "expr": "SUM(total_orders)"
+          },
+          {
+            "name": "current_stock",
+            "expr": "SUM(current_stock)"
+          },
+          {
+            "name": "profit_margin",
+            "expr": "SUM(gross_profit) / NULLIF(SUM(total_revenue), 0) * 100"
+          }
+        ]
+      }
+    },
+    {
+      "name": "customer_orders",
+      "displayName": "Customer Orders",
+      "config": {
+        "version": "1.1",
+        "source": "retail.gold.orders_summary",
+        "dimensions": [
+          {
+            "name": "customer_id",
+            "expr": "customer_id"
+          },
+          {
+            "name": "name",
+            "expr": "name"
+          },
+          {
+            "name": "email",
+            "expr": "email"
+          },
+          {
+            "name": "customer_since",
+            "expr": "customer_since"
+          },
+          {
+            "name": "last_order_date",
+            "expr": "last_order_date"
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_revenue",
+            "expr": "SUM(total_revenue)"
+          },
+          {
+            "name": "total_orders",
+            "expr": "SUM(total_orders)"
+          },
+          {
+            "name": "avg_order_value",
+            "expr": "SUM(total_revenue) / NULLIF(SUM(total_orders), 0)"
+          },
+          {
+            "name": "unique_products_purchased",
+            "expr": "SUM(unique_products_purchased)"
+          },
+          {
+            "name": "delivered_orders",
+            "expr": "SUM(delivered_orders)"
+          },
+          {
+            "name": "cancelled_orders",
+            "expr": "SUM(cancelled_orders)"
+          },
+          {
+            "name": "customer_count",
+            "expr": "COUNT(DISTINCT customer_id)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "daily_sales",
+      "displayName": "Daily Sales",
+      "config": {
+        "version": "1.1",
+        "source": "retail.gold.daily_sales",
+        "dimensions": [
+          {
+            "name": "sales_date",
+            "expr": "sales_date"
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_revenue",
+            "expr": "SUM(total_revenue)"
+          },
+          {
+            "name": "total_orders",
+            "expr": "SUM(total_orders)"
+          },
+          {
+            "name": "unique_customers",
+            "expr": "SUM(unique_customers)"
+          },
+          {
+            "name": "total_units_sold",
+            "expr": "SUM(total_units_sold)"
+          },
+          {
+            "name": "avg_order_value",
+            "expr": "SUM(total_revenue) / NULLIF(SUM(total_orders), 0)"
+          },
+          {
+            "name": "cancelled_orders",
+            "expr": "SUM(cancelled_orders)"
+          },
+          {
+            "name": "refunded_orders",
+            "expr": "SUM(refunded_orders)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "top_customers",
+      "displayName": "Top 10 Customers",
+      "config": {
+        "version": "1.1",
+        "source": "SELECT * FROM retail.gold.orders_summary ORDER BY total_revenue DESC LIMIT 10\n",
+        "dimensions": [
+          {
+            "name": "customer_id",
+            "expr": "customer_id"
+          },
+          {
+            "name": "name",
+            "expr": "name"
+          },
+          {
+            "name": "email",
+            "expr": "email"
+          },
+          {
+            "name": "customer_since",
+            "expr": "customer_since"
+          },
+          {
+            "name": "last_order_date",
+            "expr": "last_order_date"
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_revenue",
+            "expr": "ROUND(SUM(total_revenue), 2)"
+          },
+          {
+            "name": "total_orders",
+            "expr": "SUM(total_orders)"
+          },
+          {
+            "name": "avg_order_value",
+            "expr": "SUM(total_revenue) / NULLIF(SUM(total_orders), 0)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "top_products",
+      "displayName": "Top 10 Products",
+      "config": {
+        "version": "1.1",
+        "source": "SELECT * FROM retail.gold.product_performance ORDER BY total_revenue DESC LIMIT 10\n",
+        "dimensions": [
+          {
+            "name": "product_id",
+            "expr": "product_id"
+          },
+          {
+            "name": "product_name",
+            "expr": "product_name"
+          },
+          {
+            "name": "category",
+            "expr": "category"
+          },
+          {
+            "name": "last_sold_date",
+            "expr": "last_sold_date"
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_revenue",
+            "expr": "SUM(total_revenue)",
+            "format": {
+              "hideGroupSeparator": false,
+              "decimalPlaces": {
+                "type": "all"
+              },
+              "currencyCode": "USD",
+              "type": "currency",
+              "abbreviation": "none"
+            }
+          },
+          {
+            "name": "total_cost",
+            "expr": "SUM(total_cost)"
+          },
+          {
+            "name": "gross_profit",
+            "expr": "SUM(gross_profit)"
+          },
+          {
+            "name": "units_sold",
+            "expr": "SUM(units_sold)"
+          },
+          {
+            "name": "total_orders",
+            "expr": "SUM(total_orders)"
+          },
+          {
+            "name": "profit_margin",
+            "expr": "SUM(gross_profit) / NULLIF(SUM(total_revenue), 0) * 100",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "all"
+              },
+              "hideGroupSeparator": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "cd6fcda6",
+      "displayName": "Summary",
+      "layout": [
+        {
+          "widget": {
+            "name": "total_revenue_counter",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "daily_sales",
+                  "fields": [
+                    {
+                      "name": "measure(total_revenue)",
+                      "expression": "MEASURE(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Revenue",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "total_orders_counter",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "daily_sales",
+                  "fields": [
+                    {
+                      "name": "measure(total_orders)",
+                      "expression": "MEASURE(`total_orders`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Orders",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_orders)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "avg_order_value_counter",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "daily_sales",
+                  "fields": [
+                    {
+                      "name": "measure(avg_order_value)",
+                      "expression": "MEASURE(`avg_order_value`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Avg Order Value",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(avg_order_value)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "unique_customers_counter",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_orders",
+                  "fields": [
+                    {
+                      "name": "measure(customer_count)",
+                      "expression": "MEASURE(`customer_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Unique Customers",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(customer_count)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 3,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "daily_revenue_line",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "daily_sales",
+                  "fields": [
+                    {
+                      "name": "sales_date",
+                      "expression": "`sales_date`"
+                    },
+                    {
+                      "name": "measure(total_revenue)",
+                      "expression": "MEASURE(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Daily Revenue Trend",
+                "showTitle": true
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "sales_date",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact"
+                  },
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "category_sales_bar",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_performance",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "measure(total_revenue)",
+                      "expression": "MEASURE(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Sales by Category",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact"
+                  },
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 6,
+            "width": 6,
+            "height": 4
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "4babb5f9",
+      "displayName": "Top Customers",
+      "layout": [
+        {
+          "widget": {
+            "name": "07accfc6",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_customers",
+                  "fields": [
+                    {
+                      "name": "name",
+                      "expression": "`name`"
+                    },
+                    {
+                      "name": "measure(total_revenue)",
+                      "expression": "MEASURE(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 Customers by Revenue",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "name",
+                  "displayName": "Customer",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Total Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 0,
+            "width": 10,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "03a95404",
+      "displayName": "Top Products",
+      "layout": [
+        {
+          "widget": {
+            "name": "top-10",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_products",
+                  "fields": [
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "measure(total_revenue)",
+                      "expression": "MEASURE(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Top 10 Products by Revenue"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "product_name",
+                  "axis": {
+                    "title": "Product"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_revenue)",
+                  "axis": {
+                    "title": "Total Revenue"
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "top-10-product-1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_products",
+                  "fields": [
+                    {
+                      "name": "measure(units_sold)",
+                      "expression": "MEASURE(`units_sold`)"
+                    },
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Top 10 Products Units Sold"
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "measure(units_sold)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Units Sold"
+                  }
+                },
+                "color": {
+                  "fieldName": "product_name",
+                  "legend": {
+                    "title": "Products"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "angle-reversed"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "9baa72ad",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_products",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "measure(profit_margin)",
+                      "expression": "MEASURE(`profit_margin`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Profit Margin by Category",
+                "showTitle": true
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "category",
+                  "displayName": "Category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(profit_margin)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  },
+                  "displayName": "Profit Margin (%)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 7,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
