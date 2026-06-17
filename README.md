@@ -1,6 +1,6 @@
 # databricks-retail-pipeline
 
-This project demonstrates a retail data pipeline using Databricks, showcasing its key features and best practices for building scalable data solutions.
+This project demonstrates a retail data pipeline using Databricks, showcasing its key features and best practices for building scalable data solutions. The **Medallion** Architecture pattern was used, organizing data into Bronze, Silver, and Gold layers to ensure scalable, reliable, and maintainable data processing.
 
 
 ## Pipeline Architecture
@@ -71,9 +71,9 @@ The pipeline consists of three main components:
 1. Clone the repository.
 2. Run the pre_ddls.sql to create schemas and volume (use this volume path in the job parameter)
 3. Create a Lakeflow Job which consists of 3 consecutive tasks.
- - First task: Data generator
- - Second task: Pipeline
- - Third task: Dashboard refresh
+    - First task: Data generator
+    - Second task: Pipeline
+    - Third task: Dashboard refresh
 4. Add configurations to the job like:
     - Create a parameter for a volume which acts as the default landing zone for raw files generated.
     - Notification incase of failures
