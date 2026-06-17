@@ -3,6 +3,10 @@
 This project demonstrates a retail data pipeline using Databricks, showcasing its key features and best practices for building scalable data solutions.
 
 
+## Pipeline Architecture
+
+<img width="985" height="358" alt="image" src="https://github.com/user-attachments/assets/d0655c88-f40e-4444-86b0-ed06ff1fcda6" />
+
 ## Project Structure
 
 The pipeline consists of three main components:
@@ -57,6 +61,10 @@ The pipeline consists of three main components:
   - Orchestrates the full pipeline using Databricks Jobs (Lakeflow).
   - Coordinates ingestion, transformation, and aggregation steps into a single automated workflow.
 
+## Dashboards
+<img width="1875" height="836" alt="image" src="https://github.com/user-attachments/assets/09722430-4187-439d-9687-3d85057fdd2e" />
+<img width="1877" height="559" alt="image" src="https://github.com/user-attachments/assets/da8c726a-2c07-4d92-b674-2ca3d1fe582a" />
+<img width="1871" height="852" alt="image" src="https://github.com/user-attachments/assets/96c6cf36-314f-4711-8da3-cbfe1a176720" />
 
 ## Getting Started
 
