@@ -25,7 +25,7 @@ CREATE OR REFRESH STREAMING TABLE bronze.orders_bronze_clean
     CONSTRAINT valid_status      EXPECT (status IN ('pending', 'confirmed', 'shipped', 'delivered', 'cancelled', 'refunded')),
     CONSTRAINT valid_payment     EXPECT (payment_method IN ('credit_card', 'debit_card', 'paypal', 'apple_pay', 'google_pay', 'bank_transfer', 'cash_on_delivery'))
 )
-TBLPROPERTIES ('quality' = 'silver')
+TBLPROPERTIES ('quality' = 'bronze')
 AS
 SELECT
     order_id,
